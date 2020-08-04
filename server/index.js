@@ -1,5 +1,5 @@
 const io = require('socket.io')();
-var Gaia = require('./gaia.js');
+var Cyber = require('./cyber.js');
 var allClients = [];
 
 function randomIntFromInterval(min, max) { // min and max included 
@@ -10,8 +10,8 @@ function randomIntFromInterval(min, max) { // min and max included
 const signed = randomIntFromInterval(0,999999999999999)
 
 
-gaia = new Gaia(signed);
-
+cyber = new Cyber(signed);
+/*
 io.on('connection', socket => { 
 
   allClients.push(socket);
@@ -66,12 +66,48 @@ io.on('connection', socket => {
 
  });
 
-io.listen(12000);
+
 
 gaia.loadGame();
 setInterval(() => {
   gaia.saveGame();
 }, 60000*10);
+*/
+io.listen(12001);
 
+socket = {};
+
+data = {
+  user : {
+    username : 'fu',
+    password : 'fu'
+  }
+}
+cyber.classUser.createUser(socket,data);
+
+
+
+data = {
+  user : {
+    username : 'fu'
+  },
+  cible : {
+    username : 'fu'
+  },
+  information : {
+    report : {},
+    title : 'info test'
+  }
+}
+console.log(cyber.classInformation.addInformation(socket,data));
+
+data = {
+  type : 4,
+  user : {
+    username : 'fu'
+  },
+}
+
+console.log(cyber.classJob.endJob(socket,data));
 
 console.log('gaia Server Running')
