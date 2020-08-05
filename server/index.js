@@ -108,6 +108,6 @@ data = {
   },
 }
 
-console.log(cyber.classJob.endJob(socket,data));
+console.log(cyber.classJob.startJob(socket,data));
 
 console.log('gaia Server Running')

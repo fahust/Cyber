@@ -11,6 +11,15 @@ function randomIntFromInterval(min, max) { // min and max included
         this.maxStats = data.maxStats;
     }
 
+    scanInformation(socket,data){
+        if(this.users[data.user.username].data.informations[data.information.title]){
+            if(this.users[data.user.username].data.informations[data.information.title].virus.type !== 0){
+                return true;
+            }
+            return false;
+        }
+    }
+
     addInformation(socket,data){
         if(this.users[data.user.username]){
             if(!this.users[data.user.username].data.informations[data.information.title]){
@@ -18,11 +27,33 @@ function randomIntFromInterval(min, max) { // min and max included
                 /*{
                     data.report : {};
                     data.title : '';
+                    data.virus : {
+                        type:0,
+                        level:0,
+                    }
                 }*/
                 return this.getInformations(socket,data);
             }
         }
     } 
+
+    piracyInformation(socket,data){
+        if(this.users[data.cible.username]){
+            if(this.users[data.cible.username].data.interuptable.byUser === data.user.username){
+                return this.getInformation(socket,data);
+            }
+        }
+    }
+
+    readInformation(socket,data){
+        if(this.users[data.cible.username]){//catch virus
+            if(this.users[data.cible.username].data.informations[data.information.title].virus.type !== 0){
+                if(this.users[data.user.username].data.virus.type === 0)
+                    this.users[data.user.username].data.virus = this.users[data.cible.username].data.informations[data.information.title].virus;
+            }
+        }
+        return this.getInformation(socket,data);
+    }
 
     getInformation(socket,data){
         if(this.users[data.cible.username]){

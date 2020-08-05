@@ -6,6 +6,8 @@ function randomIntFromInterval(min, max) { // min and max included
   Module = require('./Module.js');
   Job = require('./Job.js');
   User = require('./User.js');
+  Virus = require('./Virus.js');
+  blackMarket = require('./BlackMarket.js');
   
   class Cyber {
     constructor(){
@@ -13,14 +15,16 @@ function randomIntFromInterval(min, max) { // min and max included
             users : {},
             blackMarket : {},
             modules : {},
-            maxJobs : 14,
+            maxJobs : 15,
             maxStats : 5,
         }
         
         this.classInformation = new Information(this.data);
         this.classModule = new Module(this.data);
         this.classUser = new User(this.data);
-        this.classJob = new Job(this.data,this.classInformation,this.classModule,this.classUser);
+        this.classVirus = new Virus(this.data);
+        this.classBlackMarket = new BlackMarket(this.data);
+        this.classJob = new Job(this.data,this.classInformation,this.classModule,this.classUser,this.classVirus,this.classBlackMarket);
     }
 
     saveGame(){
