@@ -17,7 +17,7 @@ function randomIntFromInterval(min, max) { // min and max included
             if(!this.users[data.user.username].data.modules[id]){
                 var type = randomIntFromInterval(1,this.maxJobs+this.maxStats);
                 
-                var level = randomIntFromInterval(1,this.users[data.user.username].data.jobExp[type])
+                var level = randomIntFromInterval(1,this.users[data.user.username].data.jobExp[data.type])
                 if(type > this.maxJobs)
                     level = randomIntFromInterval(1,this.users[data.user.username].data.stats.tech);
                 
@@ -35,16 +35,25 @@ function randomIntFromInterval(min, max) { // min and max included
     injectModuleIntoInformation(socket,data){
         if(this.users[data.user.username]){
             if(this.users[data.user.username].data.modules[data.id]){
-                if(!this.users[data.user.username].data.informations[data.information.title].module){
-                    this.users[data.user.username].data.informations[data.information.title].module = data.module;
-                    delete this.users[data.user.username].data.modules[data.id]
+                if(this.users[data.user.username].data.jobExp[data.type] >= data.module.level){
+                    if(!this.users[data.user.username].data.informations[data.information.title].module){
+                        this.users[data.user.username].data.informations[data.information.title].module = data.module;
+                        delete this.users[data.user.username].data.modules[data.id]
+                    }
                 }
             }
         }
     } 
 
-    extractModuleOutInformation(){
-        
+    extractModuleOutInformation(){//need read to extract and risk virus
+        if(this.users[data.user.username]){
+            if(this.users[data.user.username].data.informations[data.information.title].module){
+                if(this.users[data.user.username].data.jobExp[data.type] >= data.module.level){
+                    this.users[data.user.username].data.modules[this.users[data.user.username].data.informations[data.information.title].module.id] = data.module;
+                    delete this.users[data.user.username].data.informations[data.information.title].module;
+                }
+            }
+        }
     }
 
     useModule(socket,data){
