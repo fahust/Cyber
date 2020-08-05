@@ -17,7 +17,7 @@ function randomIntFromInterval(min, max) { // min and max included
         this.data = {
             users : {},
             blackMarket : {},
-            modules : {},
+            informations : {},
             maxJobs : 15,
             maxStats : 5,
         }

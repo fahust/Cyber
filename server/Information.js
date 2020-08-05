@@ -6,7 +6,7 @@ function randomIntFromInterval(min, max) { // min and max included
     constructor(data){
         this.users = data.users;
         this.blackMarket = data.blackMarket;
-        this.modules = data.modules;
+        this.informations = data.informations;
         this.maxJobs = data.maxJobs;
         this.maxStats = data.maxStats;
     }
@@ -22,11 +22,13 @@ function randomIntFromInterval(min, max) { // min and max included
 
     addInformation(socket,data){
         if(this.users[data.user.username]){
-            if(!this.users[data.user.username].data.informations[data.information.title]){
+            if(!this.users[data.user.username].data.informations[data.information.title] && !this.informations[data.information.title]){
                 this.users[data.user.username].data.informations[data.information.title] = data.information;
+                this.informations[data.information.title] = data.information;
                 /*{
                     data.report : {};
                     data.title : '';
+                    content
                     data.virus : {
                         type:0,
                         level:0,
@@ -65,7 +67,7 @@ function randomIntFromInterval(min, max) { // min and max included
 
     getInformations(socket,data){
         if(this.users[data.cible.username]){
-            return this.users[data.cible.username].data.informations[data.information.title];
+            return this.users[data.cible.username].data.informations;
         }
     }
 

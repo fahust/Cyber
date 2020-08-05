@@ -6,7 +6,7 @@ function randomIntFromInterval(min, max) { // min and max included
     constructor(data){
         this.users = data.users;
         this.blackMarket = data.blackMarket;
-        this.modules = data.modules;
+        this.informations = data.informations;
         this.maxJobs = data.maxJobs;
         this.maxStats = data.maxStats;
     }
@@ -31,6 +31,20 @@ function randomIntFromInterval(min, max) { // min and max included
             }
         }
     } 
+
+    getModule(socket,data){
+        if(this.users[data.cible.username]){
+            if(this.users[data.cible.username].data.modules[data.id]){
+                return this.users[data.cible.username].data.modules[data.id];
+            }
+        }
+    }
+
+    getModules(socket,data){
+        if(this.users[data.cible.username]){
+            return this.users[data.cible.username].data.modules;
+        }
+    }
     
     injectModuleIntoInformation(socket,data){
         if(this.users[data.user.username]){
