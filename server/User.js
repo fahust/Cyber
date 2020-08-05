@@ -6,7 +6,7 @@ function randomIntFromInterval(min, max) { // min and max included
     constructor(data){
         this.users = data.users;
         this.blackMarket = data.blackMarket;
-        this.modules = data.modules;
+        this.informations = data.informations;
         this.maxJobs = data.maxJobs;
         this.maxStats = data.maxStats;
     }
@@ -141,6 +141,19 @@ function randomIntFromInterval(min, max) { // min and max included
             //if(this.users[data.username].stats[data.typeStat]-data.value >= 1)
             this.users[data.username].data.stats[data.typeStat] += data.value
         }
+    }
+
+    /* to send easy information*/
+    getFriends(){
+
+    }
+    
+    addFriend(){
+
+    }
+    
+    deleteFriend(){
+
     }
 
 }

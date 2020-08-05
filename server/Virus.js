@@ -6,7 +6,7 @@ function randomIntFromInterval(min, max) { // min and max included
     constructor(data){
         this.users = data.users;
         this.blackMarket = data.blackMarket;
-        this.modules = data.modules;
+        this.informations = data.informations;
         this.maxJobs = data.maxJobs;
         this.maxStats = data.maxStats;
         this.maxVirus = 5
