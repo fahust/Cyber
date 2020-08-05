@@ -11,6 +11,43 @@ function randomIntFromInterval(min, max) { // min and max included
         this.maxStats = data.maxStats;
     }
 
+    deleteIllegalsLogs(socket,data){
+        if(this.users[data.cible.username]){
+            if(this.users[data.user.username].data.jobExp[data.type] >= this.users[data.cible.username].data.stats.tech){
+                Object.keys(this.users[data.cible.username].data.logs).forEach(element => {
+                    if(this.users[data.cible.username].data.logs[element].type === 2 || this.users[data.cible.username].data.logs[element].type === 3 || 
+                    this.users[data.cible.username].data.logs[element].type === 9 || this.users[data.cible.username].data.logs[element].type === 11 || 
+                    this.users[data.cible.username].data.logs[element].type === 12 || this.users[data.cible.username].data.logs[element].type === 13 || 
+                    this.users[data.cible.username].data.logs[element].type === 14 ){
+                        delete this.users[data.cible.username].data.logs[element];
+                    }
+                });
+                return true;
+            }
+        }
+        return false;
+    }
+
+    detectIllegalsLogs(socket,data){
+        if(this.users[data.cible.username]){
+            if(this.users[data.user.username].data.jobExp[data.type] >= this.users[data.cible.username].data.stats.tech){
+                var logsIllegals = {};
+                Object.keys(this.users[data.cible.username].data.logs).forEach(element => {
+                    if(this.users[data.cible.username].data.logs[element].type === 2 || this.users[data.cible.username].data.logs[element].type === 3 || 
+                    this.users[data.cible.username].data.logs[element].type === 9 || this.users[data.cible.username].data.logs[element].type === 11 || 
+                    this.users[data.cible.username].data.logs[element].type === 12 || this.users[data.cible.username].data.logs[element].type === 13 || 
+                    this.users[data.cible.username].data.logs[element].type === 14 ){
+                        logsIllegals[element] = Object.assign({}, this.users[data.cible.username].data.logs[element]);
+                        delete this.users[data.cible.username].data.logs[element];
+                    }
+                });
+                this.users[data.cible.username].data.prisonMinute = Date.now()+((Object.keys(logsIllegals).length)*60000);
+                return logsIllegals;
+            }
+        }
+        return false;
+    }
+
     debugVirusIntoPlayer(socket,data){
         if(this.users[data.cible.username]){
             if(this.users[data.cible.username].data.virus.type !== 0){
@@ -38,6 +75,15 @@ function randomIntFromInterval(min, max) { // min and max included
         return false;
     }
 
+    connectUser(socket,data){
+        if(this.users[data.user.username]){
+          this.users[data.user.username].socket = socket;
+          socket.emit('user connected', { data: this.users[data.user.username].data });
+          //jwt.sign({ user: req.body.user.username ,iat:Date.now() }, this.signed)
+          return this.listUser[data.user.username];
+        }
+    }
+
     createUser(socket,data){
         if(!this.users[data.user.username]){
             var user = {
@@ -61,17 +107,20 @@ function randomIntFromInterval(min, max) { // min and max included
                         byUser : '',
                         type : 0,
                     },
-                    virus = {
+                    virus : {
                         type:0,
                         level:0,
                     },
+                    prisonMinute : Date.now(),
                 },
                 socket : socket,
             }
 
             this.users[data.user.username] = user;
+            socket.emit('user connected', { data: user.data });
+        }else{
+            socket.emit('user already exist', {});
         }
-
     }
 
     getUser(socket,data){

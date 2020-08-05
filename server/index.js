@@ -11,71 +11,78 @@ const signed = randomIntFromInterval(0,999999999999999)
 
 
 cyber = new Cyber(signed);
-/*
+
 io.on('connection', socket => { 
 
-  allClients.push(socket);
+  /*allClients.push(socket);
 
   socket.on('disconnect', function() {
     var i = allClients.indexOf(socket);
-    gaia.partyDisconnect(socket.userData);
+    cyber.partyDisconnect(socket.userData);
     delete socket.userData;
     allClients.splice(i, 1);
   });
 
   socket.on('disconnectParty', function() {
-    gaia.partyDisconnect(socket.userData);
+    cyber.partyDisconnect(socket.userData);
   });
 
   socket.on('imageUpload', function(data) {
-    io.sockets.emit('newCard',{ data: gaia.createCard(data)});
-    socket.emit('actualizUser',{data: gaia.getUser(data.username)})
+    io.sockets.emit('newCard',{ data: cyber.createCard(data)});
+    socket.emit('actualizUser',{data: cyber.getUser(data.username)})
   })
 
   socket.on('dropCard', (data) => {
-    gaia.dropCardParty(data);
+    cyber.dropCardParty(data);
   })
 
   socket.on('matchmaking', (data) => {
-    gaia.searchMatchmaking(socket,data);
+    cyber.searchMatchmaking(socket,data);
   })
 
   socket.on('buyCard', (data) => {
-    gaia.buyCard(socket,data);
+    cyber.buyCard(socket,data);
   })
 
 
   socket.on('getListCard', (data) => {
-    gaia.getListCard(socket,data);
+    cyber.getListCard(socket,data);
   })
 
   socket.on('deleteCard', (data) => {
-    gaia.deleteCard(socket,data);
+    cyber.deleteCard(socket,data);
   })
   socket.on('getMyListCard', (data) => {
-    gaia.getMyListCard(socket,data);
-  })
+    cyber.getMyListCard(socket,data);
+  })*/
+
+  socket.on('start job', (data) => {
+    socket.userData = cyber.classJob.startJob(socket,data);
+  });
+
+  socket.on('end job', (data) => {
+    socket.userData = cyber.classJob.endJob(socket,data);
+  });
 
   socket.on('create', (data) => {
-    socket.userData = gaia.createUser(socket,data);
+    socket.userData = cyber.classUser.createUser(socket,data);
   });
 
   socket.on('connected', (data) => {
-    socket.userData = gaia.connectUser(socket,data);
+    socket.userData = cyber.classUser.connectUser(socket,data);
   });
 
  });
 
 
-
-gaia.loadGame();
+cyber.loadGame();
 setInterval(() => {
-  gaia.saveGame();
+  cyber.saveGame();
 }, 60000*10);
-*/
+
 io.listen(12001);
 
-socket = {};
+/*socket = {};
 
 data = {
   user : {
@@ -109,5 +116,5 @@ data = {
 }
 
 console.log(cyber.classJob.startJob(socket,data));
-
-console.log('gaia Server Running')
+*/
+console.log('cyber Server Running')

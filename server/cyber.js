@@ -1,3 +1,6 @@
+
+var fs = require('fs');
+
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
@@ -7,7 +10,7 @@ function randomIntFromInterval(min, max) { // min and max included
   Job = require('./Job.js');
   User = require('./User.js');
   Virus = require('./Virus.js');
-  blackMarket = require('./BlackMarket.js');
+  BlackMarket = require('./BlackMarket.js');
   
   class Cyber {
     constructor(){
@@ -27,35 +30,37 @@ function randomIntFromInterval(min, max) { // min and max included
         this.classJob = new Job(this.data,this.classInformation,this.classModule,this.classUser,this.classVirus,this.classBlackMarket);
     }
 
+    clearSocket(value){
+        var socket = Object.assign({},value.socket);
+        value.socket = {};
+        return socket;
+    }
+
+    reloadSocket(value,saveSocket){
+        value.socket = saveSocket
+    }
+
     saveGame(){
-        var listUser = {};
-        for (const [key, value] of Object.entries(this.listUser)) {
-          var save = this.clearOneUserForEmit(value);
-          listUser[key] = Object.assign({},value)
-          this.reloadOneUserData(value,save);
+        var users = {};
+        for (const [key, value] of Object.entries(this.data.users)) {
+          var saveSocket = this.clearSocket(value);
+          users[key] = Object.assign({},value)
+          this.reloadSocket(value,saveSocket);
         }
   
         try {
-          let data = JSON.stringify(listUser);
-          fs.writeFile('listUser.json', data, (err) => {
+          let data = JSON.stringify(users);
+          fs.writeFile('users.json', data, (err) => {
               if (err) throw err;
+              //delete users;
           });
         } catch (err) {
             console.error(err);
         }
         try {
-          let data = JSON.stringify(this.listCardImg);
-          fs.writeFile('listCardImg.json', data, (err) => {
+          let data = JSON.stringify(this.data.blackMarket);
+          fs.writeFile('blackMarket.json', data, (err) => {
               if (err) throw err;
-          });
-        } catch (err) {
-            console.error(err);
-        }
-        try {
-          let data = JSON.stringify(this.listCard);
-          fs.writeFile('listCard.json', data, (err) => {
-              if (err) throw err;
-              console.log('Data written to file');
           });
         } catch (err) {
             console.error(err);
@@ -63,21 +68,16 @@ function randomIntFromInterval(min, max) { // min and max included
       }
   
       loadGame(){
-        /*fs.readFile('listUser.json', (err, data) => {
+        fs.readFile('users.json', (err, data) => {
           if (err) throw err;
           var dataNow = JSON.parse(data);
-          this.listUser = dataNow;
+          this.users = dataNow;
         });
-        fs.readFile('listCardImg.json', (err, data) => {
+        fs.readFile('blackMarket.json', (err, data) => {
           if (err) throw err;
           var dataNow = JSON.parse(data);
-          this.listCardImg = dataNow;
+          this.blackMarket = dataNow;
         });
-        fs.readFile('listCard.json', (err, data) => {
-          if (err) throw err;
-          var dataNow = JSON.parse(data);
-          this.listCard = dataNow;
-        });*/
       }
 
 }
