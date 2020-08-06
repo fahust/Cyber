@@ -1,10 +1,12 @@
 
 import React from 'react';
 import openSocket from 'socket.io-client';
-import Connect from './user/userConnect';
-import Register from './user/userCreate';
-import Menu from './menu/menu';
-import Notif from './menu/notif';
+import Connect from './user/UserConnect';
+import Register from './user/UserCreate';
+//import Test from './Test';
+import Menu from './menu/Menu';
+import Informations from './information/GetInformations';
+//import Notif from './menu/notif';
 const socket = openSocket('http://localhost:12001');
 
 
@@ -19,11 +21,11 @@ export default class Cyber extends React.Component {
     }
 
     componentDidMount(){
-        socket.on("createOk", data => {
-            this.state.user = data.data.user;
-            this.state.page = 'menu';
-            this.setState({});
-          });
+      socket.on("connected", data => {
+        this.state.user = data.data.user;
+        this.state.page = 'menu';
+        this.setState({});
+      });
     }
 
     changePage = page => {
@@ -34,11 +36,11 @@ export default class Cyber extends React.Component {
       }
 
       render() {
-        var menu = <Menu socket={socket} user={this.state.user} party={this.state.party} changePage={this.changePage} page={this.state.page}/>;
+        var menu = <Menu socket={socket} user={this.state.user} changePage={this.changePage} page={this.state.page}/>;
         if(this.state.user === null && this.state.page === 'connect'){
-          var connect = <div><Connect socket={socket} user={this.state.user} changePage={this.changePage}/></div>
+          var connect = <div><Connect socket={socket} user={this.state.user} socket={socket} changePage={this.changePage}/></div>
         }else if(this.state.user === null && this.state.page ==='register'){
-          var register = <div><Register socket={socket} user={this.state.user} changePage={this.changePage}/></div>;
+          var register = <div><Register socket={socket} user={this.state.user} socket={socket} changePage={this.changePage}/></div>;
         }/*else if(this.state.user !== null && this.state.page ==='make card'){
           var makeCard = <div><MakeCard socket={socket} user={this.state.user} changePage={this.changePage}/></div>;
         }*/
@@ -49,6 +51,7 @@ export default class Cyber extends React.Component {
             {menu}
             {connect}
             {register}
+            <Informations  socket={socket}/>
           </div>
         )
       }

@@ -1,8 +1,5 @@
 
 import React from 'react';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:12001');
-
 
 export default class GetInformation extends React.Component {
     constructor(props){
@@ -15,10 +12,6 @@ export default class GetInformation extends React.Component {
     }
 
     componentDidMount(){
-      socket.on("getInformation", data => {
-          this.state.user = data.data.user;
-          this.setState({});
-        });
     }
 
       render() {

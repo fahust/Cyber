@@ -1,7 +1,5 @@
 
 import React from 'react';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:12001');
 
 
 export default class GetInformation extends React.Component {
@@ -15,10 +13,6 @@ export default class GetInformation extends React.Component {
     }
 
     componentDidMount(){
-      socket.on("getInformation", data => {
-          this.state.user = data.data.user;
-          this.setState({});
-        });
     }
 
       render() {
@@ -26,6 +20,9 @@ export default class GetInformation extends React.Component {
         if(this.state.information !== null){
           var information = this.state.information.name;
         }
+
+        //level job one by one
+        //stats one by one
   
         return (
           <div>

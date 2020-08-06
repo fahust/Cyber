@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Cyber from './component/cyber';
+import Cyber from './component/Cyber';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
