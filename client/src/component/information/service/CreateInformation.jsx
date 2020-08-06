@@ -30,7 +30,7 @@ export default class GetInformation extends React.Component {
           title: this.state.title,
           content: this.state.content,
           vote:0,
-          owner:this.state.user.username,
+          owner:this.state.user.data.username,
           virus : {
             type:0,
             level:0,

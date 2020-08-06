@@ -68,7 +68,7 @@ export default class GetInformations extends React.Component {
       
       if(this.state.informations !== null){
         var informations = this.state.informations.map((information,index) => {
-          return <div key={index} className="list-card">
+          return <div key={information.title} className="list-card">
             {information.title}  {information.content.substring(0,30)+'...'} {information.vote} 
             <ScanVirus information={this.state.information} user={this.props.user} socket={this.props.socket}/>
             <button>Remove Virus</button>
