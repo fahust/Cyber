@@ -129,6 +129,27 @@ function randomIntFromInterval(min, max) { // min and max included
         }
     }
 
+    getUsers(socket,data){
+        if(this.users[data.username]){
+            var users = {};
+            for (const [key, value] of Object.entries(this.users)) {
+                users[key] = Object.assign({},value.data)
+            }
+            return users;
+        }
+    }
+
+    getUsersConnected(socket,data){
+        if(this.users[data.username]){
+            var users = {};
+            for (const [key, value] of Object.entries(this.users)) {
+                if(value.socket.connected == true)
+                    users[key] = Object.assign({},value.data)
+            }
+            return users;
+        }
+    }
+
     subStat(socket,data){
         if(this.users[data.username]){
             if(this.users[data.username].data.stats[data.typeStat]-data.value >= 1)

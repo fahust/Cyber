@@ -2,7 +2,7 @@
 import React from 'react';
 
 
-export default class GetInformation extends React.Component {
+export default class ScanInformation extends React.Component {
   constructor(props){
     super(props);
 
@@ -17,13 +17,12 @@ export default class GetInformation extends React.Component {
 
   componentDidMount(){
     this.props.socket.on("scanInformation", data => {
-    if(data.data.scan === false){
-      this.state.scan = 'No virus detected';
-    }else{
-      this.state.scan = 'Virus detected !';
-    }
-    this.setState({});
-  });
+      if(data.value === false){
+        this.setState({scan : 'No virus detected'});
+      }else{
+        this.setState({scan : 'Virus detected !'});
+      }
+    });
   }
 
   startScan = () => {
@@ -32,7 +31,7 @@ export default class GetInformation extends React.Component {
         this.setState({progress:this.state.progress+1});
       }else{
         clearInterval(this.state.interval);
-        this.scanInformation();
+        //this.scanInformation();
         this.setState({progress:0});
       }
     }, 100/this.props.user.data.stats.bandwidth);
@@ -43,10 +42,15 @@ export default class GetInformation extends React.Component {
   }
 
   scanInformation = () => {
+
   }
 
   render() {
-  var progress = <div className="Modal">Progress {this.state.progress} %</div>
+    if(this.state.progress >= 100){
+      var progress = <div className="Modal">{this.state.scan}</div>
+    }else{
+      var progress = <div className="Modal">Progress {this.state.progress} %</div>
+    }
 
     return (
       <div>

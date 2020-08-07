@@ -2,31 +2,41 @@
 import React from 'react';
 
 
-export default class GetInformation extends React.Component {
-    constructor(props){
-      super(props);
+export default class VoteInformation extends React.Component {
+  constructor(props){
+    super(props);
 
-      this.state = {
-          user:this.props.user,
-          information:null,
-      }
+    this.state = {
+        vote:this.props.information.votedByMe,
     }
+  }
 
-    componentDidMount(){
-    }
-
-      render() {
-        
-        if(this.state.information !== null){
-          var information = this.state.information.name;
-        }
-  
-        return (
-          <div>
-            {information}
-          </div>
-        )
+  componentDidMount(){
+    this.props.socket.on("voteInformation", data => {
+      if(data.value === false){
+        this.setState({vote:'Unvoted'});
+      }else{
+        this.setState({vote:'Voted'});
       }
+    });
+  }
+
+  vote = () => {
+    this.props.socket.emit('voteInformation',{data:{
+      information:this.props.information,
+      user:this.props.user,
+    }})
+  }
+
+  render() {
+
+    return (
+      <div>
+        <button onClick={this.startScan()}>Vote information</button>
+        {voted}
+      </div>
+    )
+  }
 
 
 }

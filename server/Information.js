@@ -50,7 +50,7 @@ function randomIntFromInterval(min, max) { // min and max included
     readInformation(socket,data){
         if(this.users[data.cible.username]){//catch virus
             if(this.users[data.cible.username].data.informations[data.information.title].virus.type !== 0){
-                if(this.users[data.user.username].data.virus.type === 0)
+                if(this.users[data.user.username].data.virus.type === 0 && data.user.username != this.users[data.cible.username].data.informations[data.information.title].virus.owner)
                     this.users[data.user.username].data.virus = this.users[data.cible.username].data.informations[data.information.title].virus;
             }
         }
@@ -66,8 +66,22 @@ function randomIntFromInterval(min, max) { // min and max included
     }
 
     getInformations(socket,data){
-        if(this.users[data.cible.username]){
-            return this.users[data.cible.username].data.informations;
+        var loadInformations = 1;
+        var maxLoadInformations = 20;
+        var arrayInformationsToSended = [];
+        for (var i = data.maxInformations; i < this.informations.length; i++) {
+            if((data.filterOwner == 1 && this.informations[i].owner == this.data.user.owner) 
+            || (data.filterOwner == 2)
+            || (data.filterOwner == 3 && this.informations[i].owner != this.data.user.owner)){
+                arrayInformationsToSended.push(this.informations[i]);
+                loadInformations++
+            }
+            if(loadInformations > maxLoadInformations)
+                break;
+        }
+        return {
+            maxInformations : data.maxInformations+maxLoadInformations,
+            informations : arrayInformationsToSended,
         }
     }
 
@@ -75,6 +89,9 @@ function randomIntFromInterval(min, max) { // min and max included
         if(this.users[data.user.username]){
             if(this.users[data.user.username].data.informations[data.information.title]){
                 delete this.users[data.user.username].data.informations[data.information.title];
+                this.informations = array.filter(function (el) {
+                    return el != undefined;
+                  });
             }
         }
     }

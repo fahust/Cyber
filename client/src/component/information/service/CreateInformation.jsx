@@ -17,8 +17,7 @@ export default class GetInformation extends React.Component {
     handleChange = event => {
       var name = event.target.name;
       if(this.state[name] !== event.target.value){
-        this.state[name] = event.target.value;
-        this.setState({});
+        this.setState({[name] : event.target.value});
       }
     }
   
