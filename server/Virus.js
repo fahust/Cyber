@@ -20,6 +20,7 @@ function randomIntFromInterval(min, max) { // min and max included
                 this.users[data.user.username].data.informations[data.information.title].virus = {
                     type:type,
                     level:level,
+                    owner:data.user.username,
                 }
                 return this.users[data.user.username].data.informations[data.information.title].virus;
             }

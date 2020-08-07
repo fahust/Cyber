@@ -1,5 +1,6 @@
 
 import React from 'react';
+import GetInformation from './service/GetInformation';
 
 
 export default class GetInformation extends React.Component {
@@ -16,16 +17,15 @@ export default class GetInformation extends React.Component {
     }
 
       render() {
-        
-        if(this.state.information !== null){
-          var information = this.state.information.name;
-        }
+
+
 
         //level job one by one
         //stats one by one
   
         return (
           <div>
+            <Jobs user={user}/>
             {information}
           </div>
         )

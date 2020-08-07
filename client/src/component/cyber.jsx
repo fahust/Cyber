@@ -22,9 +22,10 @@ export default class Cyber extends React.Component {
 
     componentDidMount(){
       socket.on("connected", data => {
-        this.state.user = data.data.user;
-        this.state.page = 'menu';
-        this.setState({});
+        this.setState({
+          user:data.data.user,
+          page:'menu',
+        });
       });
     }
 

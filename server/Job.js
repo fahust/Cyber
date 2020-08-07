@@ -121,7 +121,7 @@ function randomIntFromInterval(min, max) { // min and max included
             if(value != false)
                 exp = this.addJobExp(socket,data);
 
-            this.users[data.cible.username].socket.emit('end job', { data: this.addLog(socket,data,value,exp) });
+            this.users[data.cible.username].socket.emit('end job', this.addLog(socket,data,value,exp) );
             
             return value;
         }
